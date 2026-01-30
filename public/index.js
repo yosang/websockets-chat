@@ -1,4 +1,8 @@
-const ws = new WebSocket("ws://localhost:5000"); // Initiates a WebSocket instance, which will be recognized by the server as a client
+let username = prompt("Enter your name: ");
+
+if (!username) username = "Guest";
+
+const ws = new WebSocket(`ws://localhost:5000/?user=${username}`); // Initiates a WebSocket instance, which will be recognized by the server as a client
 const form = document.getElementById("chatInput");
 const chat = document.getElementById("chat");
 
@@ -13,7 +17,12 @@ form.addEventListener("submit", (e) => {
 });
 
 ws.onmessage = (msg) => {
-  sendMessage(msg.data);
+  const data = JSON.parse(msg.data);
+  if(data.user) {
+    sendMessage(`${data.user}: ${data.msg}`);
+  } else {
+    sendMessage(data.msg)
+  }
 };
 
 function sendMessage(text) {
