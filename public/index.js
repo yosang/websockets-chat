@@ -18,10 +18,10 @@ form.addEventListener("submit", (e) => {
 
 ws.onmessage = (msg) => {
   const data = JSON.parse(msg.data);
-  if(data.user) {
+  if (data.user) {
     sendMessage(`${data.user}: ${data.msg}`);
   } else {
-    sendMessage(data.msg)
+    sendMessage(data.msg);
   }
 };
 
